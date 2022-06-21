@@ -1,21 +1,134 @@
-import React from "react"; 
+import React, { Component } from "react";
 import {
     View,
     Text,
     TouchableOpacity,
     Image
 } from "react-native";
-
+import { WebView } from 'react-native-webview';
 import { icons, SIZES, COLORS, FONTS } from '../../constants'
-import styles from "./style"; 
+import styles from "./style";
 
-const RenderTileItem = ({item, navigation, currentLocation}) => (
+function showOfferOnImage(item) {
+    if (item.discount != null && item.discount != "0") {
+        return (
+            <View
+                style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    height: 50,
+                    right: 0,
+                    width: SIZES.width * 0.3,
+                    backgroundColor: COLORS.primary,
+                    borderTopLeftRadius: SIZES.radius,
+                    borderBottomRightRadius: SIZES.radius,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    ...styles.shadow
+                }}
+            >
+                <Text style={{
+                    ...FONTS.h4,
+                    color: COLORS.white
+                }}>{item.discount}% OFF</Text>
+            </View>
+        )
+    }
+}
+
+function showDescription(item) {
+    if (item.description != null) {
+        return (
+            <Text style={{ ...FONTS.body3 }}>{item.description}</Text>
+        )
+    }
+}
+
+function showReviewStars(item) {
+    if (item.reviewStars != null) {
+        return (
+            <><Image
+                source={icons.star}
+                style={{
+                    height: 20,
+                    width: 20,
+                    tintColor: COLORS.primary,
+                    marginRight: 10
+                }} />
+                <Text style={{ ...FONTS.body3 }}>{item.reviewStars} ({item.noOfReviews})</Text>
+                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> | </Text></>
+        )
+    }
+}
+
+function showPromotionDetails(item) {
+    if (item.offerTitle != null && item.discount != "0") {
+        return (
+            <><Text style={{ ...FONTS.body3 }}>{item.offerTitle}</Text>
+
+                <View
+                    style={{
+                        marginTop: SIZES.padding,
+                        flexDirection: 'row',
+                        flexWrap: 'wrap'
+
+                    }}
+                >
+                    {item.price != null || item.discountPrice != null ? (
+                        <Text style={{ ...FONTS.h4, textDecorationLine: 'line-through' }}> {item.value}</Text>) :
+                        (
+                            <Text style={{ ...FONTS.h4 }}> {item.value}</Text>)
+                    }
+
+                    {item.discountPrice != null ? (
+                        <Text style={{ ...FONTS.h4, textDecorationLine: 'line-through' }}> {item.price}</Text>) :
+                        (
+                            <Text style={{ ...FONTS.h4 }}> {item.price}</Text>)
+                    }
+
+                    <Text style={{ ...FONTS.h4, color: COLORS.primary }}> {item.discountPrice}</Text>
+                    <Text style={{ ...FONTS.h4, color: COLORS.green }}> ({item.discount}%) </Text>
+                </View></>
+        )
+    }
+}
+
+function showIframe() {
+    return (
+        <WebView
+            style={styles.container}
+            source={{ uri: 'https://www.amazon.com' }}
+        />
+    )
+}
+
+function showOpenCloseStatus(item) {
+    if (item.openState != null) {
+        return (
+            <>
+                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> | </Text>
+                <Text style={{ ...FONTS.body3 }}>{item.openState}</Text>
+                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> | </Text>
+                <Text style={{ ...FONTS.body3 }}>{item.closeState}</Text>
+            </>
+        )
+    } else if (item.type == "event") {
+        return (
+            <>
+                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> | </Text>
+                <Text style={{ ...FONTS.body3 }}>{item.date}</Text>
+                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> . </Text>
+                <Text style={{ ...FONTS.body3 }}>{item.time}</Text>
+            </>
+        )
+    }
+}
+
+
+const RenderTileItem = ({ item, navigation, currentLocation }) => (
     <TouchableOpacity
         style={{ marginBottom: SIZES.padding * 2 }}
-        onPress={() => navigation.navigate("Restaurant", {
-            item,
-            currentLocation
-        })}
+        onPress={() => showIframe()}
     >
         {/* Image */}
         <View
@@ -24,7 +137,7 @@ const RenderTileItem = ({item, navigation, currentLocation}) => (
             }}
         >
             <Image
-                source={{uri:item.imageUrl}}
+                source={{ uri: item.imageUrl }}
                 resizeMode="cover"
                 style={{
                     width: "100%",
@@ -33,78 +146,41 @@ const RenderTileItem = ({item, navigation, currentLocation}) => (
                 }}
             />
 
-            <View
-                style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    height: 50,
-                    width: SIZES.width * 0.3,
-                    backgroundColor: COLORS.white,
-                    borderTopRightRadius: SIZES.radius,
-                    borderBottomLeftRadius: SIZES.radius,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    ...styles.shadow
-                }}
-            >
-                <Text style={{ ...FONTS.h4 }}>{item.distance}</Text>
-            </View>
+            {showOfferOnImage(item)}
         </View>
 
         {/* Restaurant Info */}
         <Text style={{ ...FONTS.body2 }}>{item.title}</Text>
+        {showDescription(item)}
+        <Text style={{ ...FONTS.body4 }}>{item.address}</Text>
 
         <View
             style={{
                 marginTop: SIZES.padding,
-                flexDirection: 'row'
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+
             }}
         >
             {/* Rating */}
-            <Image
-                source={icons.star}
-                style={{
-                    height: 20,
-                    width: 20,
-                    tintColor: COLORS.primary,
-                    marginRight: 10
-                }}
-            />
-            <Text style={{ ...FONTS.body3 }}>{item.reviewStars}</Text>
+            {showReviewStars(item)}
 
-            {/* Categories */}
-            <View
-                style={{
-                    flexDirection: 'row',
-                    marginLeft: 10
-                }}
-            >
-                {
-                    item.category.map((categories) => {
-                        return (
-                            <View
-                                style={{ flexDirection: 'row' }}
-                                key={categories}
-                            >
-                                <Text style={{ ...FONTS.body3 }}>{categories}</Text>
-                                <Text style={{ ...FONTS.h3, color: COLORS.darkgray }}> . </Text>
-                            </View>
-                        )
-                    })
-                }
+            {/*Distance */}
+            <Text style={{ ...FONTS.body3 }}>{item.distance}mil</Text>
 
-                {/* Price */}
-                {
-                    <Text
-                        style={{
-                            ...FONTS.body3,
-                            color:COLORS.darkgray
-                        }}
-                    >$ {item.price}</Text>
-            
-                }
-            </View>
+            {/* Open /Closing */}
+            {showOpenCloseStatus(item)}
+
         </View>
+
+        <View
+            style={{
+                marginTop: SIZES.padding
+            }}
+        >
+            {showPromotionDetails(item)}
+        </View>
+
     </TouchableOpacity>
 )
 
