@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   Text,
   View,
-  SafeAreaView,
   Image
 } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SIZES, FONTS, COLORS, images, icons } from '../../constants'
 
@@ -76,14 +77,13 @@ const WebViewComponent = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      
       <WebView
         source={{
           uri: route.params.item.url
         }}
         style={{ flex: 1 }}
       />
-      {RenderWebViewHeader(navigation, route.params.item.source)}
+    {RenderWebViewHeader(navigation, route.params.item.source)}
     </SafeAreaView>
   )
 }

@@ -9,7 +9,8 @@ import {
 
 import { icons, SIZES, COLORS, FONTS } from '../../constants';
 
- function RenderHeader(currentLocation) {
+ const RenderHeader= (currentLocation)=> {
+     
     return (
         <View style={{ flexDirection: 'row', height: 50 }}>
             <TouchableOpacity
@@ -20,7 +21,7 @@ import { icons, SIZES, COLORS, FONTS } from '../../constants';
                 }}
             >
                 <Image
-                    source={icons.nearby}
+                    source={icons.filter}
                     resizeMode="contain"
                     style={{
                         width: 30,
@@ -28,13 +29,14 @@ import { icons, SIZES, COLORS, FONTS } from '../../constants';
                     }}
                 />
             </TouchableOpacity>
+           
 
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <TouchableOpacity
                     style={{
                         width: '70%',
-                        height: "100%",
-                        backgroundColor: COLORS.lightGray3,
+                        height: "80%",
+                        backgroundColor: COLORS.white,
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: SIZES.radius

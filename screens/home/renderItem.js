@@ -6,7 +6,6 @@ import {
     TouchableOpacity,
     Image
 } from "react-native";
-import { WebView } from 'react-native-webview';
 import { icons, SIZES, COLORS, FONTS } from '../../constants'
 import styles from "./style";
 
@@ -63,7 +62,7 @@ function showReviewStars(item) {
 }
 
 function showPromotionDetails(item) {
-    if (item.offerTitle != null && item.discount != "0") {
+    if (item.offerTitle != null) {
         return (
             <><Text style={{ ...FONTS.body3 }}>{item.offerTitle}</Text>
 
@@ -75,39 +74,21 @@ function showPromotionDetails(item) {
 
                     }}
                 >
-                    {item.price != null || item.discountPrice != null ? (
+                    {item.price != null || item.discountPrice != null && item.discount != "0"? (
                         <Text style={{ ...FONTS.h4, textDecorationLine: 'line-through' }}> {item.value}</Text>) :
-                        (
-                            <Text style={{ ...FONTS.h4 }}> {item.value}</Text>)
+                        (<Text style={{ ...FONTS.h4 }}> {item.value}</Text>)
                     }
 
-                    {item.discountPrice != null ? (
+                    {item.discountPrice != null && item.discount != "0" ? (
                         <Text style={{ ...FONTS.h4, textDecorationLine: 'line-through' }}> {item.price}</Text>) :
-                        (
-                            <Text style={{ ...FONTS.h4 }}> {item.price}</Text>)
+                        (<Text style={{ ...FONTS.h4 }}> {item.price}</Text>)
                     }
-
                     <Text style={{ ...FONTS.h4, color: COLORS.primary }}> {item.discountPrice}</Text>
                     <Text style={{ ...FONTS.h4, color: COLORS.green }}> ({item.discount}%) </Text>
                 </View></>
         )
     }
 }
-
-function showIframe() {
-    console.log('button pressed')
-    return (
-        <SafeAreaView style={styles.container}>
-        <View style={styles.webviewStyle}>
-            <Text style={{color:COLORS.black}}>Show webview</Text>
-            <WebView style={styles.webviewStyle}
-             source={{html: '<h1 style="font-size:100px; padding: 50px; text-align: center;">Hello World </h1>'}}
-            />
-        </View>
-        </SafeAreaView>
-    )
-}
-
 
 function showOpenCloseStatus(item) {
     if (item.openState != null) {
@@ -137,7 +118,7 @@ const RenderTileItem = ({ item, navigation, currentLocation}) => (
     <TouchableOpacity
         style={{ marginBottom: SIZES.padding * 2 }}
         onPress={() => navigation.navigate("WebViewComponent", {
-           navigation:navigation, item:item
+           item:item
         })}
     >
         {/* Image */}

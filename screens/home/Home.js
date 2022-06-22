@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-    SafeAreaView,
     View,
-    Text,
-    TouchableOpacity,
     ActivityIndicator,
     FlatList
 } from "react-native";
 
-import { images, SIZES, COLORS, FONTS } from '../../constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import {SIZES} from '../../constants';
 import RenderHeader from "../common/header";
 import RenderTileItem from "./renderItem";
 import styles from "./style";
@@ -35,8 +34,6 @@ const Home = ({ navigation }) => {
         }
     };
 
-    //getExplorerData(url);
-
     useEffect(() => {
         getExplorerData();
     }, []);
@@ -49,77 +46,7 @@ const Home = ({ navigation }) => {
         }
     }
 
-    const categoryData = [
-        {
-            id: 1,
-            name: "Things To Do",
-        },
-        {
-            id: 2,
-            name: "Restaurent",
-        }
-    ]
-
-   
- 
-    const [categories, setCategories] = React.useState(categoryData)
-    const [selectedCategory, setSelectedCategory] = React.useState(null)
-
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
-
-
-    function onSelectCategory(category) {
-        //filter restaurant
-        let restaurantList = restaurantData.filter(a => a.categories.includes(category.id))
-
-        setRestaurants(restaurantList)
-
-        setSelectedCategory(category)
-    }
-
-
-    function renderMainCategories() {
-        const renderItem = ({ item }) => {
-            return (
-                <TouchableOpacity
-                    style={{
-                        padding: SIZES.padding,
-                        backgroundColor: (selectedCategory?.id == item.id) ? COLORS.primary : COLORS.white,
-                        borderRadius: SIZES.radius,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: SIZES.padding,
-                        ...styles.shadow
-                    }}
-                    onPress={() => onSelectCategory(item)}
-                >
-
-                    <Text
-                        style={{
-                            color: (selectedCategory?.id == item.id) ? COLORS.white : COLORS.black,
-                            ...FONTS.body5
-                        }}
-                    >
-                        {item.name}
-                    </Text>
-                </TouchableOpacity>
-            )
-        }
-
-        return (
-            <View style={{ padding: SIZES.padding * 2 }}>
-                <Text style={{ ...FONTS.h1 }}>Categories</Text>
-                <FlatList
-                    data={categories}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={renderItem}
-                    contentContainerStyle={{ paddingVertical: SIZES.padding * 1 }}
-                />
-            </View>
-        )
-    }
 
 
     function renderRestaurantList() {
@@ -147,7 +74,6 @@ const Home = ({ navigation }) => {
             ) : (
                 [
                     RenderHeader(currentLocation),
-                    renderMainCategories(),
                     renderRestaurantList()
                 ]
             )
@@ -155,6 +81,7 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
     )
 }
+
 
 
 export default Home
