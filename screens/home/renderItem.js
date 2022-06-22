@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
     View,
+    SafeAreaView,
     Text,
     TouchableOpacity,
     Image
@@ -94,13 +95,19 @@ function showPromotionDetails(item) {
 }
 
 function showIframe() {
+    console.log('button pressed')
     return (
-        <WebView
-            style={styles.container}
-            source={{ uri: 'https://www.amazon.com' }}
-        />
+        <SafeAreaView style={styles.container}>
+        <View style={styles.webviewStyle}>
+            <Text style={{color:COLORS.black}}>Show webview</Text>
+            <WebView style={styles.webviewStyle}
+             source={{html: '<h1 style="font-size:100px; padding: 50px; text-align: center;">Hello World </h1>'}}
+            />
+        </View>
+        </SafeAreaView>
     )
 }
+
 
 function showOpenCloseStatus(item) {
     if (item.openState != null) {
@@ -125,10 +132,13 @@ function showOpenCloseStatus(item) {
 }
 
 
-const RenderTileItem = ({ item, navigation, currentLocation }) => (
+const RenderTileItem = ({ item, navigation, currentLocation}) => (
+
     <TouchableOpacity
         style={{ marginBottom: SIZES.padding * 2 }}
-        onPress={() => showIframe()}
+        onPress={() => navigation.navigate("WebViewComponent", {
+           navigation:navigation, item:item
+        })}
     >
         {/* Image */}
         <View

@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
 import { Restaurant, OrderDelivery } from './screens'
 import Tabs from './navigation/tabs'
+import WebViewComponent from './screens/home/WebViewComponent';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const App = () => {
                 <Stack.Screen name="Home" component={Tabs} />
                 <Stack.Screen name="Restaurant" component={Restaurant} />
                 <Stack.Screen name="OrderDelivery" component={OrderDelivery} />
+                <Stack.Screen name="WebViewComponent" component= {WebViewComponent} />
             </Stack.Navigator>
         </NavigationContainer>
     )

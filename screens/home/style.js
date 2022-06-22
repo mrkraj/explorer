@@ -22,5 +22,11 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems : "center"
+    },
+    webviewStyle:{
+        flex: 1,
+        alignContent: 'center',
+        width: 500,
+        height: 600
     }
 })
