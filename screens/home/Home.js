@@ -67,13 +67,14 @@ const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            {RenderHeader(currentLocation)}
+
             {isLoaded ? (
                 <View style={styles.loader}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             ) : (
                 [
-                    RenderHeader(currentLocation),
                     renderRestaurantList()
                 ]
             )
