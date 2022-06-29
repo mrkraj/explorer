@@ -1,3 +1,3 @@
-const GOOGLE_API_KEY = "<Your Google Maps API Key>"
+const GOOGLE_API_KEY = "AIzaSyDOKk0RNsM2xq0WRttRqXmZKipL26In0bQ"
 
 export default GOOGLE_API_KEY

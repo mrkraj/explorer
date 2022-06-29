@@ -19,6 +19,9 @@ const Home = ({ navigation }) => {
     const url = "http://192.168.1.199:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
     const url1 = "http://172.28.48.1:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
 
+    const [relevanceData, setRelevanceData] = useState();
+    const [distanceData, setDistanceData] = useState(null);
+
     const [explorerData, setExplorerData] = useState();
     const [isLoaded, setIsLoaded] = useState(true);
 
@@ -27,8 +30,9 @@ const Home = ({ navigation }) => {
             const response = await fetch(url);
             const myData = await response.json();
             setExplorerData(myData);
+            setRelevanceData(myData)
             setIsLoaded(false);
-            console.log(myData);
+            console.log('from fetch', myData);
         } catch (error) {
             console.log(error);
         }
@@ -46,12 +50,33 @@ const Home = ({ navigation }) => {
         }
     }
 
+    const sortedData = () =>{
+        if(distanceData === null){
+            console.log('sorting the data')
+            const sorting = [].concat(explorerData)
+            .sort((a, b) => a.distance > b.distance ? 1 : -1)
+            setDistanceData(sorting)
+            return sorting;
+        }else{
+            return distanceData
+        }
+    }
+
     const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
 
+    const handleSort =(option) => {
+        console.log('Sort handler called')
+        if(option === 'relevance'){
+            setExplorerData(relevanceData)
+        }else{
+            setExplorerData(sortedData())
+        }
+    }
 
-    function renderRestaurantList() {
+
+    const renderRestaurantList= () => {
         const renderMainTileItems = ({ item }) => <RenderTileItem item={item} navigation={navigation} currentLocation={currentLocation}/>;
-
+        console.log(explorerData)
         return (
             <FlatList
                 data={explorerData}
@@ -67,7 +92,7 @@ const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {RenderHeader(currentLocation)}
+            {RenderHeader({currentLocation, handleSort})}
 
             {isLoaded ? (
                 <View style={styles.loader}>

@@ -12,10 +12,13 @@ import { Overlay } from "react-native-elements";
 import SimpleSelectButton from 'react-native-simple-select-button';
 import { icons, SIZES, COLORS, FONTS } from '../../constants';
 
-const RenderHeader = (currentLocation) => {
+const RenderHeader = ({ currentLocation, handleSort }) => {
 
-    const [visible, setVisible] = useState(false);
-    const toggleOverlay = () => { setVisible(!visible) };
+    const [filterOverlayVisible, setFilterOverlayVisible] = useState(false);
+    const toggleFilterOverlay = () => { setFilterOverlayVisible(!filterOverlayVisible) };
+
+    const [inviteOverlayVisible, setInviteOverlayVisible] = useState(false);
+    const toggleInviteOverlay = () => { setInviteOverlayVisible(!inviteOverlayVisible) };
 
     const [sortChoice, setChoice] = useState('relevance');
     const sortOption = (sortChoice) => {
@@ -24,7 +27,8 @@ const RenderHeader = (currentLocation) => {
     }
 
     const updateSorting = () => {
-        { toggleOverlay() }
+        { toggleFilterOverlay() }
+        { handleSort(sortChoice) }
         console.log('Update the sorting for', sortChoice)
     }
 
@@ -36,7 +40,7 @@ const RenderHeader = (currentLocation) => {
                     paddingLeft: SIZES.padding * 2,
                     justifyContent: 'center'
                 }}
-                onPress={toggleOverlay}
+                onPress={toggleFilterOverlay}
             >
                 <Image
                     source={icons.filter}
@@ -48,14 +52,22 @@ const RenderHeader = (currentLocation) => {
                 />
             </TouchableOpacity>
 
-            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+            <Overlay isVisible={filterOverlayVisible} onBackdropPress={toggleFilterOverlay}>
                 <View style={{
                     width: 300,
                     height: 300,
                     borderRadius: SIZES.radius
                 }}>
-                    <TouchableOpacity onPress={toggleOverlay}>
-                        <Text style={{ position: 'absolute', height: 50, right: 0 }}>x</Text>
+                    <TouchableOpacity onPressIn={toggleFilterOverlay}>
+                        <Image
+                            source={icons.close}
+                            resizeMode="contain"
+                            style={{
+                                alignSelf: 'flex-end',
+                                width: 20,
+                                height: 20
+                            }}
+                        />
                     </TouchableOpacity>
 
                     <Text style={{ fontSize: SIZES.h3 }}>Sort by</Text>
@@ -130,9 +142,10 @@ const RenderHeader = (currentLocation) => {
                     paddingRight: SIZES.padding * 2,
                     justifyContent: 'center'
                 }}
+                onPress={toggleInviteOverlay}
             >
                 <Image
-                    source={icons.basket}
+                    source={icons.addperson}
                     resizeMode="contain"
                     style={{
                         width: 30,
@@ -140,6 +153,33 @@ const RenderHeader = (currentLocation) => {
                     }}
                 />
             </TouchableOpacity>
+
+            <Overlay isVisible={inviteOverlayVisible} onBackdropPress={toggleInviteOverlay}>
+                <View style={{
+                    width: 300,
+                    height: 300,
+                    borderRadius: SIZES.radius
+                }}>
+                    <TouchableOpacity onPressIn={toggleInviteOverlay}>
+                        <Image
+                            source={icons.close}
+                            resizeMode="contain"
+                            style={{
+                                alignSelf: 'flex-end',
+                                width: 20,
+                                height: 20
+                            }}
+                        />
+                    </TouchableOpacity>
+
+                    <Text style={{ fontSize: SIZES.h3 }}>===TODO===</Text>
+                    <Text style={{ fontSize: SIZES.h3 }}>Invite your friends to go with you.</Text>
+                    <Text style={{ fontSize: SIZES.body3 }}>Personalize the lists based on common interest of the people selected.</Text>
+                    <Text style={{ fontSize: SIZES.body3 }}>Send Invite Email to people selected with locaiton and time details.</Text>
+
+                </View>
+
+            </Overlay>
         </View>
     )
 }
