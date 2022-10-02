@@ -8,16 +8,21 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {SIZES} from '../../constants';
+import Tabs from "../../navigation/tabs";
 import RenderHeader from "../common/header";
 import RenderTileItem from "./renderItem";
 import styles from "./style";
 
 
-const Home = ({ navigation }) => {
+const Home = ({route, navigation}) => {
 
-    const url2 = "https://partner-api.groupon.com/deals.json?tsToken=US_AFF_0_6162194_212556_0&lat=40.7954198&lng=-74.4794881&radius=1&filters=category:things-to-do";
-    const url = "http://192.168.1.199:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
-    const url1 = "http://172.28.48.1:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
+    const { location, category } = route.params;
+    console.log('location:', route.params.location);
+    console.log('back to home');
+    //for local testing get the ip by "ipconfig" on terminal
+    const url1 = "http://192.168.1.153:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
+    const url = "http://192.168.1.153:8080/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+                location.gps.longitude + "&category=things-to-do&range=10";
 
     const [relevanceData, setRelevanceData] = useState();
     const [distanceData, setDistanceData] = useState(null);
@@ -27,12 +32,13 @@ const Home = ({ navigation }) => {
 
     const getExplorerData = async () => {
         try {
+            console.log('fetching for url-', url);
             const response = await fetch(url);
             const myData = await response.json();
             setExplorerData(myData);
             setRelevanceData(myData)
             setIsLoaded(false);
-            console.log('from fetch', myData);
+            //console.log('from fetch', myData);
         } catch (error) {
             console.log(error);
         }
@@ -62,7 +68,7 @@ const Home = ({ navigation }) => {
         }
     }
 
-    const [currentLocation, setCurrentLocation] = React.useState(initialCurrentLocation)
+    const [currentLocation, setCurrentLocation] = React.useState(location)
 
     const handleSort =(option) => {
         console.log('Sort handler called')
@@ -76,7 +82,7 @@ const Home = ({ navigation }) => {
 
     const renderRestaurantList= () => {
         const renderMainTileItems = ({ item }) => <RenderTileItem item={item} navigation={navigation} currentLocation={currentLocation}/>;
-        console.log(explorerData)
+        //console.log(explorerData)
         return (
             <FlatList
                 data={explorerData}
@@ -92,7 +98,7 @@ const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {RenderHeader({currentLocation, handleSort})}
+            {RenderHeader({ currentLocation, handleSort })}
 
             {isLoaded ? (
                 <View style={styles.loader}>
@@ -102,8 +108,8 @@ const Home = ({ navigation }) => {
                 [
                     renderRestaurantList()
                 ]
-            )
-            }
+            )}
+
         </SafeAreaView>
     )
 }

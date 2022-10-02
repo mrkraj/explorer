@@ -10,7 +10,7 @@ import SimpleSelectButton from 'react-native-simple-select-button';
 
 
 const Welcome = ({ navigation }) => {
-
+    console.log('inside welcome.')
     const [addressSelected, setAddressSelection] = useState(false);
 
     const [searchCategory, setSearchCategory] = useState('things-to-do');
@@ -57,6 +57,10 @@ const Welcome = ({ navigation }) => {
                         marginTop: 50
                     }}>
                         <Button
+                            onPress={() => {navigation.navigate("Home", {
+                                location:currentLocation, category:"searchCategory"
+                             });
+                            }}
                             title="Search"
                             color={COLORS.primary}
                         />
@@ -97,7 +101,7 @@ const Welcome = ({ navigation }) => {
 
                         // 'details' is provided when fetchDetails = true
                         console.log("address selected")
-                        console.log(data, details);
+                        //console.log(data, details);
                     }}
                     query={{
                         key: GOOGLE_API_KEY,

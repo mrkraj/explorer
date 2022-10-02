@@ -3,10 +3,11 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import { Restaurant, OrderDelivery } from './screens'
-import Tabs from './navigation/tabs'
+import { Restaurant, OrderDelivery, Account } from './screens'
+import Home from './screens/home/Home';
 import WebViewComponent from './screens/home/WebViewComponent';
 import Welcome from './screens/welcome/Welcome';
+import Tabs from './navigation/tabs';
 
 const Stack = createStackNavigator();
 
@@ -31,11 +32,12 @@ const App = () => {
                 }}
                 initialRouteName={'Welcome'}
             >
-                <Stack.Screen name="Home" component={Tabs} />
-                <Stack.Screen name="Welcome" component={Welcome} />
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Welcome" component={Tabs} />
                 <Stack.Screen name="Restaurant" component={Restaurant} />
                 <Stack.Screen name="OrderDelivery" component={OrderDelivery} />
                 <Stack.Screen name="WebViewComponent" component= {WebViewComponent} />
+                <Stack.Screen name="Account" component= {Account} />
             </Stack.Navigator>
         </NavigationContainer>
     )

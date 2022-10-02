@@ -2,9 +2,10 @@ import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
 
-import { Home } from "../screens"
+import Welcome from '../screens/welcome/Welcome';
 
 import { COLORS, icons } from "../constants"
+import { Account, Home, OrderDelivery } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +51,16 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
     }
 }
 
+const CustomTabBar = (props) => {
+    
+        return (
+            <BottomTabBar
+                {...props.props}
+            />
+        )
+
+}
+ 
 // bottom navigator tabs.
 const Tabs = () => {
     return (
@@ -65,10 +76,15 @@ const Tabs = () => {
                     elevation: 0
                 }
             }}
+            tabBar={(props) => (
+                <CustomTabBar
+                    props={props}
+                />
+            )}
         >
             <Tab.Screen
-                name="Home"
-                component={Home}
+                name="Welcome"
+                component={Welcome}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -91,7 +107,7 @@ const Tabs = () => {
 
             <Tab.Screen
                 name="Search"
-                component={Home}
+                component={OrderDelivery}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
@@ -113,7 +129,7 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Like"
+                name="Home"
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -136,8 +152,8 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="User"
-                component={Home}
+                name="Account"
+                component={Account}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
