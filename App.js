@@ -3,11 +3,15 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font';
-import { Restaurant, OrderDelivery, Account } from './screens'
+import { Account } from './screens'
 import Home from './screens/home/Home';
 import WebViewComponent from './screens/home/WebViewComponent';
 import Welcome from './screens/welcome/Welcome';
 import Tabs from './navigation/tabs';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const Stack = createStackNavigator();
 
@@ -34,8 +38,6 @@ const App = () => {
             >
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="Welcome" component={Tabs} />
-                <Stack.Screen name="Restaurant" component={Restaurant} />
-                <Stack.Screen name="OrderDelivery" component={OrderDelivery} />
                 <Stack.Screen name="WebViewComponent" component= {WebViewComponent} />
                 <Stack.Screen name="Account" component= {Account} />
             </Stack.Navigator>

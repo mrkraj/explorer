@@ -2,11 +2,13 @@
   "expo": {
     "name": "explorer",
     "slug": "explorer",
+    "description": "Find your favorite activities near you.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "owner": "jerif",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/mainlogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

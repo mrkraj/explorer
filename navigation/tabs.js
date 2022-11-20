@@ -5,7 +5,7 @@ import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom
 import Welcome from '../screens/welcome/Welcome';
 
 import { COLORS, icons } from "../constants"
-import { Account, Home, OrderDelivery } from '../screens';
+import { Account, Favorite, Home, OrderDelivery } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -88,29 +88,6 @@ const Tabs = () => {
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.cutlery}
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? COLORS.primary : COLORS.secondary
-                            }}
-                        />
-                    ),
-                    tabBarButton: (props) => (
-                        <TabBarCustomButton
-                            {...props}
-                        />
-                    )
-                }}
-            />
-
-            <Tab.Screen
-                name="Search"
-                component={OrderDelivery}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <Image
                             source={icons.search}
                             resizeMode="contain"
                             style={{
@@ -127,10 +104,31 @@ const Tabs = () => {
                     )
                 }}
             />
-
             <Tab.Screen
                 name="Home"
                 component={Home}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Image
+                            source={icons.cutlery}
+                            resizeMode="contain"
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? COLORS.primary : COLORS.secondary
+                            }}
+                        />
+                    ),
+                    tabBarButton: (props) => (
+                        <TabBarCustomButton
+                            {...props}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="Favorite"
+                component={Favorite}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image

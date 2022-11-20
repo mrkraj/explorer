@@ -12,7 +12,7 @@ import { Overlay } from "react-native-elements";
 import SimpleSelectButton from 'react-native-simple-select-button';
 import { icons, SIZES, COLORS, FONTS } from '../../constants';
 
-const RenderHeader = ({ currentLocation, handleSort }) => {
+const RenderHeader = ({ location, handleSort }) => {
 
     const [filterOverlayVisible, setFilterOverlayVisible] = useState(false);
     const toggleFilterOverlay = () => { setFilterOverlayVisible(!filterOverlayVisible) };
@@ -132,7 +132,7 @@ const RenderHeader = ({ currentLocation, handleSort }) => {
                         borderRadius: SIZES.radius
                     }}
                 >
-                    <Text style={{ ...FONTS.h3 }}>{currentLocation.streetName}</Text>
+                    <Text style={{ ...FONTS.h3 }}>{location.streetName}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -175,7 +175,7 @@ const RenderHeader = ({ currentLocation, handleSort }) => {
                     <Text style={{ fontSize: SIZES.h3 }}>===TODO===</Text>
                     <Text style={{ fontSize: SIZES.h3 }}>Invite your friends to go with you.</Text>
                     <Text style={{ fontSize: SIZES.body3 }}>Personalize the lists based on common interest of the people selected.</Text>
-                    <Text style={{ fontSize: SIZES.body3 }}>Send Invite Email to people selected with locaiton and time details.</Text>
+                    <Text style={{ fontSize: SIZES.body3 }}>Send Invite Email to people selected with location and time details.</Text>
 
                 </View>
 

@@ -1,3 +1,4 @@
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
     View,
@@ -8,7 +9,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {SIZES} from '../../constants';
-import Tabs from "../../navigation/tabs";
 import RenderHeader from "../common/header";
 import RenderTileItem from "./renderItem";
 import styles from "./style";
@@ -17,12 +17,19 @@ import styles from "./style";
 const Home = ({route, navigation}) => {
 
     const { location, category } = route.params;
-    console.log('location:', route.params.location);
-    console.log('back to home');
+    console.log('back to home'); 
+    console.log("category-" + category);
+
     //for local testing get the ip by "ipconfig" on terminal
     const url1 = "http://192.168.1.153:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
-    const url = "http://192.168.1.153:8080/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
-                location.gps.longitude + "&category=things-to-do&range=10";
+
+    let url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+    location.gps.longitude + "&category=things-to-do&range=10";
+
+    if(category.includes('restaurants')){
+        url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+        location.gps.longitude + "&category=restaurants&range=10"; 
+    }
 
     const [relevanceData, setRelevanceData] = useState();
     const [distanceData, setDistanceData] = useState(null);
@@ -30,7 +37,7 @@ const Home = ({route, navigation}) => {
     const [explorerData, setExplorerData] = useState();
     const [isLoaded, setIsLoaded] = useState(true);
 
-    const getExplorerData = async () => {
+    const getExplorerData = async (url) => {
         try {
             console.log('fetching for url-', url);
             const response = await fetch(url);
@@ -45,16 +52,26 @@ const Home = ({route, navigation}) => {
     };
 
     useEffect(() => {
-        getExplorerData();
-    }, []);
+        // Refresh the screen 
+        //const refreshScreen = navigation.addListener('focus', () => {
+            setIsLoaded(true);
+            console.log("from useeffect, home page.")
+            //const { location, category } = route.params;
+            // url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+            // location.gps.longitude + "&category=things-to-do&range=10";
 
-    const initialCurrentLocation = {
-        streetName: "Morristown",
-        gps: {
-            latitude: 1.5496614931250685,
-            longitude: 110.36381866919922
-        }
-    }
+            // if(category.includes('restaurants')){
+            //     url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+            //     location.gps.longitude + "&category=restaurants&range=10"; 
+            // }
+            getExplorerData(url); 
+       // });
+        
+        //refreshScreen;
+        // return () => {
+        //     refreshScreen;
+        // };
+    }, [category]);
 
     const sortedData = () =>{
         if(distanceData === null){
@@ -68,8 +85,6 @@ const Home = ({route, navigation}) => {
         }
     }
 
-    const [currentLocation, setCurrentLocation] = React.useState(location)
-
     const handleSort =(option) => {
         console.log('Sort handler called')
         if(option === 'relevance'){
@@ -81,7 +96,7 @@ const Home = ({route, navigation}) => {
 
 
     const renderRestaurantList= () => {
-        const renderMainTileItems = ({ item }) => <RenderTileItem item={item} navigation={navigation} currentLocation={currentLocation}/>;
+        const renderMainTileItems = ({ item }) => <RenderTileItem item={item} navigation={navigation} currentLocation={location}/>;
         //console.log(explorerData)
         return (
             <FlatList
@@ -98,7 +113,7 @@ const Home = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {RenderHeader({ currentLocation, handleSort })}
+            {RenderHeader({ location, handleSort })}
 
             {isLoaded ? (
                 <View style={styles.loader}>

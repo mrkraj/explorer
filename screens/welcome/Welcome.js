@@ -15,6 +15,11 @@ const Welcome = ({ navigation }) => {
 
     const [searchCategory, setSearchCategory] = useState('things-to-do');
 
+    const changeCategory = (val) => { 
+        console.log('state change', val)
+        setSearchCategory(val) 
+    };
+
     const [currentLocation, setLocation] = useState();
 
     function showCategorySection() {
@@ -24,7 +29,7 @@ const Welcome = ({ navigation }) => {
                     <Text style={{ fontSize: SIZES.h3, marginBottom: 20 }}>What are you looking for near {currentLocation.streetName}</Text>
 
                     <SimpleSelectButton
-                        onPress={() => setSearchCategory('things-to-do')}
+                        onPress={() => changeCategory('things-to-do')}
                         isChecked={searchCategory === 'things-to-do'}
                         text={'Things to do'}
                         textSize={18}
@@ -37,7 +42,7 @@ const Welcome = ({ navigation }) => {
                         textSelectedColor="#fff"
                     />
                     <SimpleSelectButton
-                        onPress={() => setSearchCategory('restaurants')}
+                        onPress={() => changeCategory('restaurants')}
                         isChecked={searchCategory === 'restaurants'}
                         text={'Restaurants'}
                         textSize={18}
@@ -58,7 +63,7 @@ const Welcome = ({ navigation }) => {
                     }}>
                         <Button
                             onPress={() => {navigation.navigate("Home", {
-                                location:currentLocation, category:"searchCategory"
+                                location:currentLocation, category:searchCategory
                              });
                             }}
                             title="Search"
