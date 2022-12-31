@@ -23,11 +23,11 @@ const Home = ({route, navigation}) => {
     //for local testing get the ip by "ipconfig" on terminal
     const url1 = "http://192.168.1.153:8080/data/exploreAll?lat=40.7957927&lng=-74.4801174&category=things-to-do&range=10";
 
-    let url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+    let url = "https://dedonde.onrender.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
     location.gps.longitude + "&category=things-to-do&range=10";
 
     if(category.includes('restaurants')){
-        url = "https://dedonde.herokuapp.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
+        url = "https://dedonde.onrender.com/data/exploreAll?lat="+location.gps.latitude + "&lng=" + 
         location.gps.longitude + "&category=restaurants&range=10"; 
     }
 
